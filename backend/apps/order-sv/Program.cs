@@ -1,4 +1,11 @@
+using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using order_sv.Interfaces;
+using order_sv.Models;
+using order_sv.Services;
+
 var builder = WebApplication.CreateBuilder(args);
+var Configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -6,6 +13,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddDbContextPool<OrderContext>(options => {
+    options.UseInMemoryDatabase(Configuration["ConnectionStrings:InMemoryDb"]);
+});
+
+builder.Services.AddScoped<IOrderService, OrderService>();
+
+// configure controller to use Newtonsoft as a default serializer
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+            .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                    = new DefaultContractResolver()
+);
 
 var app = builder.Build();
 
@@ -16,10 +37,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+SeedData.Seed(app);
 
 app.Run();

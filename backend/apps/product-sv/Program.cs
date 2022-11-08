@@ -1,5 +1,8 @@
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Serialization;
+using product_sv.Interfaces;
 using product_sv.Models;
+using product_sv.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -14,6 +17,17 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContextPool<ProductContext>(options => {
     options.UseInMemoryDatabase(Configuration["ConnectionStrings:InMemoryDb"]);
 });
+
+builder.Services.AddScoped<IProductService, ProductService>();
+
+// configure controller to use Newtonsoft as a default serializer
+builder.Services.AddControllers()
+    .AddNewtonsoftJson(options =>
+        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft
+            .Json.ReferenceLoopHandling.Ignore)
+                .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
+                    = new DefaultContractResolver()
+);
 
 var app = builder.Build();
 

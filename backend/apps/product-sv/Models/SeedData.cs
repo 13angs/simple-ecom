@@ -8,8 +8,8 @@ namespace product_sv.Models
             using(var scope = app.ApplicationServices.CreateScope())
             {
                 ProductContext context = scope.ServiceProvider.GetRequiredService<ProductContext>();
-                string[] productNames = {"Orange", "Apple"};
-                int[] prices = {100, 200};
+                string[] productNames = {"Orange", "Apple", "Papaya", "Durian"};
+                int[] prices = {100, 200, 50, 500};
                 IList<Product> products = new List<Product>();
                 for(int i=0; i < productNames.Length; i++)
                 {

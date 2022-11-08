@@ -2,38 +2,24 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build",
-            "command": "dotnet",
+            "label": "product-build",
+            "command": "npx",
             "type": "process",
             "args": [
+                "nx",
                 "build",
-                "${workspaceFolder}/apps/order-sv/SeBackend.OrderSv.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
+                "product-sv"
             ],
             "problemMatcher": "$msCompile"
         },
         {
-            "label": "publish",
-            "command": "dotnet",
+            "label": "order-build",
+            "command": "npx",
             "type": "process",
             "args": [
-                "publish",
-                "${workspaceFolder}/apps/order-sv/SeBackend.OrderSv.csproj",
-                "/property:GenerateFullPaths=true",
-                "/consoleloggerparameters:NoSummary"
-            ],
-            "problemMatcher": "$msCompile"
-        },
-        {
-            "label": "watch",
-            "command": "dotnet",
-            "type": "process",
-            "args": [
-                "watch",
-                "run",
-                "--project",
-                "${workspaceFolder}/apps/order-sv/SeBackend.OrderSv.csproj"
+                "nx",
+                "build",
+                "order-sv"
             ],
             "problemMatcher": "$msCompile"
         }
