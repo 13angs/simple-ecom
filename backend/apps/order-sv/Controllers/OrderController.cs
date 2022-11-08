@@ -5,7 +5,7 @@ using SeBackend.Common.Models;
 namespace order_sv.Controllers
 {
   [ApiController]
-  [Route("api/orders")]
+  [Route("api/order/orders")]
   public class OrderController : ControllerBase
   {
     private readonly IOrderService orderService;

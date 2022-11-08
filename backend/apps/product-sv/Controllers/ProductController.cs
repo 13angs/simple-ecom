@@ -5,7 +5,7 @@ using SeBackend.Common.Models;
 namespace product_sv.Controllers
 {
   [ApiController]
-  [Route("api/products")]
+  [Route("api/product/products")]
   public class ProductController : ControllerBase
   {
     private readonly IProductService productService;

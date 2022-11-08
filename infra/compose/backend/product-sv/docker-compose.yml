@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  se-backend-product-sv:
+    image: 13angs/se-backend-product-sv:latest
+    build: 
+      context: ../../../../backend
+      dockerfile: apps/product-sv/Dockerfile
+    networks:
+      - se-network
+    ports:
+      - "5000:5000"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+
+networks:
+  se-network:
+    name: se-network
+    external: true

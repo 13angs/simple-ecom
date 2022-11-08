@@ -10,12 +10,12 @@ namespace SeBackend.Common.Models
         }
 
         [JsonProperty("order_id")]
-        public int OrderId { get; set; }
+        public int? OrderId { get; set; }
 
         [JsonProperty("amount")]
-        public int Amount { get; set; }
+        public int? Amount { get; set; }
 
         [JsonProperty("products")]
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
     }
 }

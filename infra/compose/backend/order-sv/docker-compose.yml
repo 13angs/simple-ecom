@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  se-backend-order-sv:
+    image: 13angs/se-backend-order-sv:latest
+    build: 
+      context: ../../../../backend
+      dockerfile: apps/order-sv/Dockerfile
+    networks:
+      - se-network
+    ports:
+      - "5001:5000"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "Services:ProductService=http://se-backend-product-sv:5000"
+
+networks:
+  se-network:
+    name: se-network
+    external: true
