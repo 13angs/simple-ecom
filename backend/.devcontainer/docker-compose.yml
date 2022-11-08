@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  se-backend:
+    image: mcr.microsoft.com/devcontainers/dotnet:0-6.0-bullseye
+    container_name: se-backend
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../..:/workspaces/simple-ecom:cached
+    
+    command: sleep infinity
+
+    networks:
+      - se-network
+      
+networks:
+  se-network:
+    name: se-network
+    external: true
