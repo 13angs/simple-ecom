@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  se-haproxy:
+    image: haproxy:latest
+    container_name: se-haproxy
+
+    networks:
+      - se-network
+    
+    volumes:
+      - ./conf:/usr/local/etc/haproxy:ro
+    
+    ports:
+      - "8080:8080"
+      - "8404:8404"
+
+networks:
+  se-network:
+     name: se-network
+     external: true
