@@ -18,6 +18,8 @@ builder.Services.AddDbContextPool<OrderContext>(options => {
 });
 
 builder.Services.AddScoped<IOrderService, OrderService>();
+var consulHost = "http://localhost:8500";
+builder.Services.AddConsulConfig(configKey: consulHost);
 
 // configure controller to use Newtonsoft as a default serializer
 builder.Services.AddControllers()

@@ -1,0 +1,13 @@
+{
+    "node_name": "se-consul-server1",
+    "server": true,
+    "ui_config": {
+      "enabled": true
+    },
+    "data_dir": "/consul/data",
+    "addresses": {
+      "http": "0.0.0.0"
+    },
+    "retry_join": ["se-consul-server2"]
+  }
+  
