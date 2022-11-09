@@ -8,6 +8,9 @@
     "addresses": {
       "http": "0.0.0.0"
     },
-    "retry_join": ["se-consul-server2"]
+    "retry_join": ["se-consul-server2"],
+    "connect": {
+      "enabled": true
+    }
   }
   
