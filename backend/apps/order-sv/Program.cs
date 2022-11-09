@@ -1,8 +1,11 @@
+using Consul;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
 using order_sv.Interfaces;
 using order_sv.Models;
 using order_sv.Services;
+using SeBackend.Common.Models;
+using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -18,8 +21,10 @@ builder.Services.AddDbContextPool<OrderContext>(options => {
 });
 
 builder.Services.AddScoped<IOrderService, OrderService>();
-var consulHost = "http://localhost:8500";
-builder.Services.AddConsulConfig(configKey: consulHost);
+// var consulHost = "http://localhost:8500";
+// builder.Services.AddConsulConfig(configKey: consulHost);
+var serviceConfig = Configuration.GetServiceConfig();
+builder.Services.RegisterConsulServices(serviceConfig);
 
 // configure controller to use Newtonsoft as a default serializer
 builder.Services.AddControllers()

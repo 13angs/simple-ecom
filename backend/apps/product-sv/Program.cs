@@ -3,6 +3,7 @@ using Newtonsoft.Json.Serialization;
 using product_sv.Interfaces;
 using product_sv.Models;
 using product_sv.Services;
+using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = builder.Configuration;
@@ -19,6 +20,8 @@ builder.Services.AddDbContextPool<ProductContext>(options => {
 });
 
 builder.Services.AddScoped<IProductService, ProductService>();
+var serviceConfig = Configuration.GetServiceConfig();
+builder.Services.RegisterConsulServices(serviceConfig);
 
 // configure controller to use Newtonsoft as a default serializer
 builder.Services.AddControllers()

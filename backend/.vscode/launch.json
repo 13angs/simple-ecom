@@ -35,7 +35,7 @@
             "request": "launch",
             "preLaunchTask": "order-build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/apps/order-sv/bin/Debug/net6.0/SeBackend.OrderSv.dll",
+            "program": "${workspaceFolder}/dist/apps/order-sv/net6.0/SeBackend.OrderSv.dll",
             "args": [],
             "cwd": "${workspaceFolder}/apps/order-sv",
             "stopAtEntry": false,
