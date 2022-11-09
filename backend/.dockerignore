@@ -1,0 +1,6 @@
+**.devcontainer
+**dist
+**node_modules
+**.gitignore
+**bin
+**obj

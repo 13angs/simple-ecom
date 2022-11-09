@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "product-build",
+            "command": "npx",
+            "type": "process",
+            "args": [
+                "nx",
+                "build",
+                "product-sv"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "order-build",
+            "command": "npx",
+            "type": "process",
+            "args": [
+                "nx",
+                "build",
+                "order-sv"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
