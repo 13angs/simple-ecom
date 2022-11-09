@@ -21,6 +21,16 @@
             },
             "UpstreamPathTemplate": "/api/order/{all_order}",
             "UpstreamHttpMethod": [ "Get" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/product/{all_product}",
+            "DownstreamScheme": "http",
+            "ServiceName": "se-backend-product-sv",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "UpstreamPathTemplate": "/api/product/{all_product}",
+            "UpstreamHttpMethod": [ "Get" ]
         }
     ],
     "GlobalConfiguration": {

@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  se-backend-gateway-sv:
+    image: 13angs/se-backend-gateway-sv:latest
+    build: 
+      context: ../../../../backend
+      dockerfile: apps/gateway-sv/Dockerfile
+    networks:
+      - se-network
+    ports:
+      - "5000:5000"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+
+networks:
+  se-network:
+    name: se-network
+    external: true

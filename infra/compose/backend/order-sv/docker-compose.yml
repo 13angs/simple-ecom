@@ -13,6 +13,10 @@ services:
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
       - "Services__ProductService=http://se-backend-product-sv:5000"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://se-consul-server1:8500"
+      - "ServiceConfig__ServiceAddress=http://se-backend-order-sv:5000"
+      - "ServiceConfig__ServiceName=se-backend-order-sv"
+      - "ServiceConfig__ServiceId=v1"
 
 networks:
   se-network:

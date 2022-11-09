@@ -9,9 +9,13 @@ services:
     networks:
       - se-network
     ports:
-      - "5000:5000"
+      - "5002:5000"
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://se-consul-server1:8500"
+      - "ServiceConfig__ServiceAddress=http://se-backend-product-sv:5000"
+      - "ServiceConfig__ServiceName=se-backend-product-sv"
+      - "ServiceConfig__ServiceId=v1"
 
 networks:
   se-network:
