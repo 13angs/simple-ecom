@@ -1,3 +1,4 @@
+using comment_sv.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using SeBackend.Common.Models;
 
@@ -7,18 +8,22 @@ namespace comment_sv.Controllers
     [Route("api/comment/comments")]
     public class CommentController : ControllerBase
     {
+    private readonly ICommentService commentService;
+
+    public CommentController(ICommentService commentService)
+        {
+      this.commentService = commentService;
+    }
         [HttpGet]
         public ActionResult<IEnumerable<Comment>> Get()
         {
-            IList<Comment> comments = new List<Comment>(){
-                new Comment{
-                    CommentId=1,
-                    ProductId=1,
-                    Text="First comment",
-                    NLikes=10
-                }
-            };
-            return Ok(comments);
+            return commentService.Get();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Post([FromBody] Comment comment)
+        {
+            return await commentService.Post(comment);
         }
     }
 }

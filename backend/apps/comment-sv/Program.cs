@@ -1,6 +1,10 @@
+using comment_sv.Interfaces;
 using comment_sv.Models;
+using comment_sv.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using SeBackend.Common.Interfaces;
+using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +26,10 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                     = new DefaultContractResolver()
 );
+
+builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 var app = builder.Build();
 

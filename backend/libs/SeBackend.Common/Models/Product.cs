@@ -12,5 +12,8 @@ namespace SeBackend.Common.Models
 
         [JsonProperty("name")]
         public string? Name { get; set; }
+
+        [JsonProperty("n_comments")]
+        public int NComments { get; set; }
     }
 }
