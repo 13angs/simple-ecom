@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  se-backend-comment-sv:
+    image: 13angs/se-backend-comment-sv:latest
+    build: 
+      context: ../../../../backend
+      dockerfile: apps/comment-sv/Dockerfile
+    networks:
+      - se-network
+    ports:
+      - "5003:5000"
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
+
+networks:
+  se-network:
+    name: se-network
+    external: true
