@@ -7,6 +7,7 @@ using SeBackend.Common.Interfaces;
 using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+var Configuration = builder.Configuration;
 
 // Add services to the container.
 
@@ -30,6 +31,8 @@ builder.Services.AddControllers()
 builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
+var serviceConfig = Configuration.GetServiceConfig();
+builder.Services.RegisterConsulServices(serviceConfig);
 
 var app = builder.Build();
 
@@ -40,7 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 

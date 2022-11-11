@@ -1,18 +1,6 @@
 {
     "Routes": [
         {
-            "DownstreamPathTemplate": "/todos/{id}",
-            "DownstreamScheme": "https",
-            "DownstreamHostAndPorts": [
-                {
-                    "Host": "jsonplaceholder.typicode.com",
-                    "Port": 443
-                }
-            ],
-            "UpstreamPathTemplate": "/todos/{id}",
-            "UpstreamHttpMethod": [ "Get" ]
-        },
-        {
             "DownstreamPathTemplate": "/api/order/{all_order}",
             "DownstreamScheme": "http",
             "ServiceName": "se-backend-order-sv",
@@ -20,7 +8,7 @@
                 "Type": "LeastConnection"
             },
             "UpstreamPathTemplate": "/api/order/{all_order}",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
         },
         {
             "DownstreamPathTemplate": "/api/product/{all_product}",
@@ -30,11 +18,20 @@
                 "Type": "LeastConnection"
             },
             "UpstreamPathTemplate": "/api/product/{all_product}",
-            "UpstreamHttpMethod": [ "Get" ]
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
+        },
+        {
+            "DownstreamPathTemplate": "/api/comment/{all_comment}",
+            "DownstreamScheme": "http",
+            "ServiceName": "se-backend-comment-sv",
+            "LoadBalancerOptions": {
+                "Type": "LeastConnection"
+            },
+            "UpstreamPathTemplate": "/api/comment/{all_comment}",
+            "UpstreamHttpMethod": [ "Get", "Post", "Put", "Delete" ]
         }
     ],
     "GlobalConfiguration": {
-        "BaseUrl": "https://localhost:7173",
         "ServiceDiscoveryProvider": {
             "Scheme": "http",
             "Host": "se-consul-server1",
