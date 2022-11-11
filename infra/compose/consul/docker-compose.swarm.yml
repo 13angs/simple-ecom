@@ -1,0 +1,26 @@
+version: '3.6'
+services:
+  se-consule-server:
+    image: consul:latest
+    hostname: "{{.Node.Hostname}}"
+    networks:
+      - se-consul-network
+      - se-prod-network
+    ports:
+      - 8400:8400
+      - 8500:8500
+      - 8600:53
+    volumes:
+      - se-consul-data:/consul/data
+      - /app/simple-ecom/infra/compose/consul:/consul/config 
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.labels.consul == true]
+    command: "consul agent -config-file /consul/config/config.json"
+networks:
+  se-consul-network:
+  se-prod-network:
+    external: true
+volumes:
+  se-consul-data:
