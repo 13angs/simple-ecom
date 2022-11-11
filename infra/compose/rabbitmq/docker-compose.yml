@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  se-rabbitmq-management:
+    image: rabbitmq:3-management
+    container_name: se-rabbitmq-management
+    hostname: se-rabbitmq-management
+    ports:
+      - target: 15672
+        published: 15672
+
+      - target: 5672
+        published: 5672
+    
+    networks:
+      - se-network
+
+networks:
+  se-network:
+    external: true
+    name: se-network

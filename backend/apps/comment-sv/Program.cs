@@ -1,9 +1,8 @@
+using comment_sv.Interfaces;
+using comment_sv.Models;
+using comment_sv.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
-using product_sv.BgService;
-using product_sv.Interfaces;
-using product_sv.Models;
-using product_sv.Services;
 using SeBackend.Common.Interfaces;
 using SeBackend.Common.Services;
 
@@ -16,17 +15,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContextPool<ProductContext>(options => {
-    options.UseInMemoryDatabase(Configuration["ConnectionStrings:InMemoryDb"]);
+builder.Services.AddDbContextPool<CommentContext>(options => {
+    options.UseInMemoryDatabase("CommentDb");
 });
 
-builder.Services.AddScoped<IProductService, ProductService>();
-var serviceConfig = Configuration.GetServiceConfig();
-builder.Services.RegisterConsulServices(serviceConfig);
-builder.Services.AddScoped<IMessageSubscriber, MessageSubscriber>();
-builder.Services.AddScoped<IProductCommentDataCollector, ProductCommentDataCollector>();
-builder.Services.AddHostedService<DataCollector>();
 // configure controller to use Newtonsoft as a default serializer
 builder.Services.AddControllers()
     .AddNewtonsoftJson(options =>
@@ -35,6 +27,12 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                     = new DefaultContractResolver()
 );
+
+builder.Services.AddScoped<IMessagePublisher, MessagePublisher>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddAutoMapper(typeof(Program).Assembly);
+var serviceConfig = Configuration.GetServiceConfig();
+builder.Services.RegisterConsulServices(serviceConfig);
 
 var app = builder.Build();
 
@@ -50,7 +48,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-SeedData.Seed(app);
 
 app.Run();

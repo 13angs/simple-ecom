@@ -16,6 +16,7 @@ services:
       - "ServiceConfig__ServiceAddress=http://se-backend-product-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-product-sv"
       - "ServiceConfig__ServiceId=v1"
+      - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
 
 networks:
   se-network:

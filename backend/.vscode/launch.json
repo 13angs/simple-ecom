@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "product-build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/apps/product-sv/bin/Debug/net6.0/SeBackend.ProductSv.dll",
+            "program": "${workspaceFolder}/dist/apps/product-sv/net6.0/SeBackend.ProductSv.dll",
             "args": [],
             "cwd": "${workspaceFolder}/apps/product-sv",
             "stopAtEntry": false,
