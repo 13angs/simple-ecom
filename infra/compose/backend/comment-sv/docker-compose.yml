@@ -7,7 +7,7 @@ services:
       context: ../../../../backend
       dockerfile: apps/comment-sv/Dockerfile
     networks:
-      - se-network
+      - prod
     ports:
       - "5003:5000"
     environment:
@@ -15,6 +15,6 @@ services:
       - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
 
 networks:
-  se-network:
-    name: se-network
+  prod:
+    name: prod
     external: true
