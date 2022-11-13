@@ -7,18 +7,18 @@ services:
       context: ../../../../backend
       dockerfile: apps/order-sv/Dockerfile
     networks:
-      - prod
+      - se-network
     ports:
       - "5001:5000"
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
       - "Services__ProductService=http://se-backend-product-sv:5000"
-      - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://se-consul-server1:8500"
       - "ServiceConfig__ServiceAddress=http://se-backend-order-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-order-sv"
       - "ServiceConfig__ServiceId=v1"
 
 networks:
-  prod:
-    name: prod
+  se-network:
+    name: se-network
     external: true
