@@ -6,10 +6,10 @@ services:
     networks:
       - consul
       - prod
-    ports:
-      - 8400:8400
-      - 8500:8500
-      - 8600:53
+    # ports:
+    #   - 8400:8400
+    #   - 8500:8500
+    #   - 8600:53
     volumes:
       - consul-data:/consul/data
     deploy:

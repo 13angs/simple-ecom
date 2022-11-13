@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  se-backend-gateway-sv:
+    image: 13angs/se-backend-gateway-sv:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 2
+    networks:
+      - prod
+
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Production"
+
+networks:
+  prod:
+    name: prod
+    external: true

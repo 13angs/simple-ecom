@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  se-backend-order-sv:
+    image: 13angs/se-backend-order-sv:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 2
+    networks:
+      - prod
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Production"
+      - "Services__ProductService=http://se-backend-product-sv:5000"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
+      - "ServiceConfig__ServiceAddress=http://se-backend-order-sv:5000"
+      - "ServiceConfig__ServiceName=se-backend-order-sv"
+      - "ServiceConfig__ServiceId=v1"
+
+networks:
+  prod:
+    name: prod
+    external: true

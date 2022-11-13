@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  se-backend-product-sv:
+    image: 13angs/se-backend-product-sv:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 2
+
+    networks:
+      - prod
+
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Production"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
+      - "ServiceConfig__ServiceAddress=http://se-backend-product-sv:5000"
+      - "ServiceConfig__ServiceName=se-backend-product-sv"
+      - "ServiceConfig__ServiceId=v1"
+      - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
+
+networks:
+  prod:
+    name: prod
+    external: true

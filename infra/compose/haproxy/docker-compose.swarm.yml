@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  se-haproxy:
+    image: 13angs/se-haproxy:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile.prod 
+
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 2
+
+    networks:
+      - prod
+    
+    # volumes:
+    #   - ./conf:/usr/local/etc/haproxy:ro
+    
+    ports:
+      - "8081:8081" # gateway-sv
+      - "8405:8405" # haproxy-ui
+      - "8501:8501" # consul-ui
+
+networks:
+  prod:
+     name: prod
+     external: true
