@@ -7,13 +7,13 @@ services:
       context: ../../../../backend
       dockerfile: apps/gateway-sv/Dockerfile
     networks:
-      - se-network
+      - prod
     ports:
       - "5000:5000"
     environment:
       - "ASPNETCORE_ENVIRONMENT=Development"
 
 networks:
-  se-network:
-    name: se-network
+  prod:
+    name: prod
     external: true

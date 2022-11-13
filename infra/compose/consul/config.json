@@ -1,0 +1,21 @@
+{
+  "advertise_addr" : "{{ GetInterfaceIP \"eth0\" }}",
+  "bind_addr": "{{ GetInterfaceIP \"eth0\" }}",
+  "client_addr": "0.0.0.0",
+  "data_dir": "/consul/data",
+  "datacenter": "se-prod-network",
+  "leave_on_terminate" : true,
+  "retry_join" : [
+    "se-consule-server"
+  ],
+  "skip_leave_on_interrupt" : true,
+  "server" : true,
+  "ui_config": {
+    "enabled": true
+  },
+  "autopilot": {
+    "cleanup_dead_servers": true
+  },
+  "disable_update_check": true,
+  "log_level": "warn"
+}
