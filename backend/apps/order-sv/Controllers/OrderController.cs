@@ -21,12 +21,11 @@ namespace order_sv.Controllers
       return orderService.Get();
     }
 
-    [HttpGet]
-    [Route("product/config")]
-    public async Task<ActionResult> GetProductConfig()
+    [HttpPost]
+    public async Task<ActionResult<Order>> Post([FromBody] Order order)
     {
-      var key = await ConsulKeyValueProvider.GetValueAsync<ProductConfig>(key: "product_service");
-      return Ok(key);
+      return await orderService.Post(order);
     }
+
   }
 }

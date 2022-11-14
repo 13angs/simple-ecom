@@ -52,6 +52,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-SeedData.Seed(app);
+// SeedData.Seed(app);
 
 app.Run();
