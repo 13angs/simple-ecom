@@ -4,7 +4,9 @@ using product_sv.BgService;
 using product_sv.Interfaces;
 using product_sv.Models;
 using product_sv.Services;
+using SeBackend.Common.Configurations;
 using SeBackend.Common.Interfaces;
+using SeBackend.Common.Models;
 using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,10 +18,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddDbContextPool<ProductContext>(options => {
-    options.UseInMemoryDatabase(Configuration["ConnectionStrings:InMemoryDb"]);
-});
 
 builder.Services.AddScoped<IProductService, ProductService>();
 var serviceConfig = Configuration.GetServiceConfig();
@@ -35,6 +33,8 @@ builder.Services.AddControllers()
                 .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver
                     = new DefaultContractResolver()
 );
+MongodbConfig mongodbConfig = Configuration.GetMongodbConfig();
+builder.Services.AddSingleton(mongodbConfig);
 
 var app = builder.Build();
 
@@ -43,6 +43,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    SeedData.Seed(Configuration);
 }
 
 // app.UseHttpsRedirection();
@@ -50,7 +51,5 @@ if (app.Environment.IsDevelopment())
 app.UseAuthorization();
 
 app.MapControllers();
-
-SeedData.Seed(app);
 
 app.Run();

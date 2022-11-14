@@ -9,12 +9,12 @@ namespace product_sv.Services
   public class ProductCommentDataCollector : IProductCommentDataCollector
   {
     private readonly ILogger<ProductCommentDataCollector> logger;
-    private readonly ProductContext context;
+    // private readonly ProductContext context;
 
-    public ProductCommentDataCollector(ILogger<ProductCommentDataCollector> logger, ProductContext context)
+    public ProductCommentDataCollector(ILogger<ProductCommentDataCollector> logger)
     {
       this.logger = logger;
-      this.context = context;
+      // this.context = context;
     }
     public bool Create(string message)
     {
@@ -22,20 +22,20 @@ namespace product_sv.Services
 
       try
       {
-        Product? product = context.Products
-            .FirstOrDefault(p => p.ProductId == model!.ProductId);
+        // Product? product = context.Products
+        //     .FirstOrDefault(p => p.ProductId == model!.ProductId);
         
-        if(product != null)
-        {
-            product.NComments += 1;
+        // if(product != null)
+        // {
+        //     product.NComments += 1;
             
-            int result = context.SaveChanges();
-            if(result > 0)
-            {
-                logger.LogInformation("--> Product updated");  
-                return true;      
-            }
-        }
+        //     int result = context.SaveChanges();
+        //     if(result > 0)
+        //     {
+        //         logger.LogInformation("--> Product updated");  
+        //         return true;      
+        //     }
+        // }
 
         logger.LogWarning("--> Product not found");
         return false;

@@ -1,22 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Driver;
 using product_sv.Interfaces;
-using product_sv.Models;
 using SeBackend.Common.Models;
 
 namespace product_sv.Services
 {
   public class ProductService : ControllerBase, IProductService
   {
-    private readonly ProductContext context;
+    private readonly IMongoCollection<Product> _product;
 
-    public ProductService(ProductContext context)
+    public ProductService(MongodbConfig mongodbConfig)
     {
-      this.context = context;
+      var mongoClient = new MongoClient(mongodbConfig.ConnectionString);
+      var mongoDb = mongoClient.GetDatabase(mongodbConfig.DatabaseName);
+      _product = mongoDb.GetCollection<Product>(
+        mongodbConfig.CollectionName
+      );
     }
     public ActionResult<IEnumerable<Product>> Get()
     {
-      IEnumerable<Product> products = context.Products;
+      IEnumerable<Product> products = _product.Find(p => true).ToList();
       return Ok(products);
+    }
+    public async Task<ActionResult<Product>> Post(Product product)
+    {
+      await _product.InsertOneAsync(product);
+      return Ok(product);
     }
   }
 }
