@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   se-haproxy:
-    image: haproxy:latest
+    image: 13angs/se-haproxy:latest
+    build:
+      context: ./
+      dockerfile: ./Dockerfile 
     container_name: se-haproxy
 
     networks:

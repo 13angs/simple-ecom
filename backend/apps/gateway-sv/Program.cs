@@ -14,8 +14,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddOcelot()
     .AddConsul();
 
-Configuration.AddJsonFile("ocelot.json");
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,6 +21,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    Configuration.AddJsonFile("ocelot.dev.json");
+}else{
+    Configuration.AddJsonFile("ocelot.json");
 }
 
 // app.UseHttpsRedirection();

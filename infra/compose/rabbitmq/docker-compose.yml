@@ -13,9 +13,9 @@ services:
         published: 5672
     
     networks:
-      - prod
+      - se-network
 
 networks:
-  prod:
+  se-network:
     external: true
-    name: prod
+    name: se-network

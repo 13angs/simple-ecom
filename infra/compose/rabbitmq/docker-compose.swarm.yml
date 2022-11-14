@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  se-rabbitmq-management:
+    image: rabbitmq:3-management
+    hostname: se-rabbitmq-management
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      mode: global
+      # placement:
+      #   constraints: [node.hostname == node-1]
+    networks:
+      - prod
+
+networks:
+  prod:
+    external: true
+    name: prod

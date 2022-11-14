@@ -3,22 +3,24 @@ version: '3.8'
 services:
   se-backend-comment-sv:
     image: 13angs/se-backend-comment-sv:latest
-    build: 
-      context: ../../../../backend
-      dockerfile: apps/comment-sv/Dockerfile
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 2
     networks:
-      - se-network
+      - prod
     ports:
       - "5003:5000"
     environment:
-      - "ASPNETCORE_ENVIRONMENT=Development"
+      - "ASPNETCORE_ENVIRONMENT=Production"
       - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
-      - "ServiceConfig__ServiceDiscoveryAddress=http://se-consul-server1:8500"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
       - "ServiceConfig__ServiceAddress=http://se-backend-comment-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-comment-sv"
       - "ServiceConfig__ServiceId=v1"
 
 networks:
-  se-network:
-    name: se-network
+  prod:
+    name: prod
     external: true
