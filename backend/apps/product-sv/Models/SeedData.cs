@@ -1,6 +1,7 @@
 using MongoDB.Driver;
 using SeBackend.Common.Configurations;
 using SeBackend.Common.Models;
+using SeBackend.Common.Services;
 
 namespace product_sv.Models
 {
@@ -12,9 +13,7 @@ namespace product_sv.Models
       var mongoClient = new MongoClient(mongodbConfig.ConnectionString);
       var mongoDb = mongoClient.GetDatabase(mongodbConfig.DatabaseName);
       
-      IMongoCollection<Product> _product = mongoDb.GetCollection<Product>(
-          mongodbConfig.CollectionName
-      );
+      IMongoCollection<Product?> _product = MongodbCollectionService.GetCollection<Product>(configuration);
 
       if(_product.CountDocuments(p => true) == 0)
       {
