@@ -17,6 +17,10 @@ services:
       - "ServiceConfig__ServiceAddress=http://se-backend-order-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-order-sv"
       - "ServiceConfig__ServiceId=v1"
+      # mongodb config
+      - "MongodbConfig__ConnectionString=mongodb://root:9d08b3a2a423bc75@se-mongo-db:27017/"
+      - "MongodbConfig__DatabaseName=order_db"
+      - "MongodbConfig__CollectionName=orders"
 
 networks:
   prod:

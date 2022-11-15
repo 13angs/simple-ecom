@@ -18,7 +18,12 @@ services:
       - "ServiceConfig__ServiceAddress=http://se-backend-product-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-product-sv"
       - "ServiceConfig__ServiceId=v1"
+      # rabbitmq host
       - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
+      # mongodb config
+      - "MongodbConfig__ConnectionString=mongodb://root:9d08b3a2a423bc75@se-mongo-db:27017/"
+      - "MongodbConfig__DatabaseName=product_db"
+      - "MongodbConfig__CollectionName=products"
 
 networks:
   prod:

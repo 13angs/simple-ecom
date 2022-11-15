@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  se-mongo-db:
+    image: mongo
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      mode: global
+      placement:
+        constraints: [node.hostname == node-1]
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 9d08b3a2a423bc75
+    
+    volumes:
+      - se-mongo-db:/data/db
+    
+    networks:
+      - prod
+  
+  se-mongo-express:
+    image: mongo-express
+    container_name: se-mongo-express
+    restart: always
+    
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 9d08b3a2a423bc75
+      ME_CONFIG_MONGODB_URL: mongodb://root:9d08b3a2a423bc75@se-mongo-db:27017/
+    
+    networks:
+      - prod
+
+volumes:
+  se-mongo-db:
+
+networks:
+  prod:
+    name: prod
+    external: true
