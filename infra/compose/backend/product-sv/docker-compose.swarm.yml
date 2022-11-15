@@ -1,13 +1,15 @@
 version: '3.8'
 
 services:
-  se-backend-product-sv:
+  se-backend-product-sv-01:
     image: 13angs/se-backend-product-sv:latest
     deploy:
       restart_policy:
         condition: on-failure
         delay: 10s
-      replicas: 2
+      replicas: 1
+      placement:
+        constraints: [node.labels.rabbitmq01 == true]
 
     networks:
       - prod
@@ -15,11 +17,37 @@ services:
     environment:
       - "ASPNETCORE_ENVIRONMENT=Production"
       - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
-      - "ServiceConfig__ServiceAddress=http://se-backend-product-sv:5000"
+      - "ServiceConfig__ServiceAddress=http://se-backend-product-sv-01:5000"
       - "ServiceConfig__ServiceName=se-backend-product-sv"
-      - "ServiceConfig__ServiceId=v1"
+      - "ServiceConfig__ServiceId=01"
       # rabbitmq host
-      - "RabbitMQ__HostName=amqp://guest:guest@se-rabbitmq-management:5672"
+      - "RabbitMQ__HostName=amqp://admin:5af42315e38d@se-rabbitmq-management-01:5672"
+      # mongodb config
+      - "MongodbConfig__ConnectionString=mongodb://root:9d08b3a2a423bc75@se-mongo-db:27017/"
+      - "MongodbConfig__DatabaseName=product_db"
+      - "MongodbConfig__CollectionName=products"
+
+  se-backend-product-sv-02:
+    image: 13angs/se-backend-product-sv:latest
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      replicas: 1
+      placement:
+        constraints: [node.labels.rabbitmq02 == true]
+
+    networks:
+      - prod
+
+    environment:
+      - "ASPNETCORE_ENVIRONMENT=Production"
+      - "ServiceConfig__ServiceDiscoveryAddress=http://consul-server:8500"
+      - "ServiceConfig__ServiceAddress=http://se-backend-product-sv-02:5000"
+      - "ServiceConfig__ServiceName=se-backend-product-sv"
+      - "ServiceConfig__ServiceId=02"
+      # rabbitmq host
+      - "RabbitMQ__HostName=amqp://admin:5af42315e38d@se-rabbitmq-management-02:5672"
       # mongodb config
       - "MongodbConfig__ConnectionString=mongodb://root:9d08b3a2a423bc75@se-mongo-db:27017/"
       - "MongodbConfig__DatabaseName=product_db"

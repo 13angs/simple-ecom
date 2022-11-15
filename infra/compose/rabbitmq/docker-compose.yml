@@ -2,7 +2,10 @@ version: '3.8'
 
 services:
   se-rabbitmq-management:
-    image: rabbitmq:3-management
+    image: 13angs/rabbitmq:3.11.3-management
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     container_name: se-rabbitmq-management
     hostname: se-rabbitmq-management
     ports:

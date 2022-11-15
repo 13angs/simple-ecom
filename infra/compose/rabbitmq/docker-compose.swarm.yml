@@ -1,18 +1,47 @@
 version: '3.8'
 
 services:
-  se-rabbitmq-management:
-    image: rabbitmq:3-management
-    hostname: se-rabbitmq-management
+  se-rabbitmq-management-01:
+    image: 13angs/rabbitmq:3.11.3-management
+    hostname: se-rabbitmq-management-01
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=5af42315e38d
+      - RABBITMQ_ERLANG_COOKIE="ee62afc5-257f-4563-83da-5af42315e38d"
     deploy:
       restart_policy:
         condition: on-failure
         delay: 10s
       mode: global
-      # placement:
-      #   constraints: [node.hostname == node-1]
+      placement:
+        constraints: [node.labels.rabbitmq01 == true]
     networks:
       - prod
+    volumes:
+      - se-rabbitmq-data-01:/var/lib/rabbitmq
+
+  se-rabbitmq-management-02:
+    image: 13angs/rabbitmq:3.11.3-management
+    hostname: se-rabbitmq-management-02
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=5af42315e38d
+      - RABBITMQ_ERLANG_COOKIE="ee62afc5-257f-4563-83da-5af42315e38d"
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+      mode: global
+      placement:
+        constraints: [node.labels.rabbitmq02 == true]
+    networks:
+      - prod
+    volumes:
+      - se-rabbitmq-data-02:/var/lib/rabbitmq
+
+volumes:
+  se-rabbitmq-data-01:
+  se-rabbitmq-data-02:
 
 networks:
   prod:
