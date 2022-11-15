@@ -1,20 +1,27 @@
+using MongoDB.Driver;
 using Newtonsoft.Json;
 using product_sv.Interfaces;
 using product_sv.Models;
 using SeBackend.Common.DTOs;
 using SeBackend.Common.Models;
+using SeBackend.Common.Services;
 
 namespace product_sv.Services
 {
   public class ProductCommentDataCollector : IProductCommentDataCollector
   {
     private readonly ILogger<ProductCommentDataCollector> logger;
-    private readonly ProductContext context;
+    private readonly IConfiguration configuration;
+    private readonly IMongoCollection<Product?> _product;
 
-    public ProductCommentDataCollector(ILogger<ProductCommentDataCollector> logger, ProductContext context)
+    // private readonly ProductContext context;
+
+    public ProductCommentDataCollector(ILogger<ProductCommentDataCollector> logger, IConfiguration configuration)
     {
       this.logger = logger;
-      this.context = context;
+      this.configuration = configuration;
+      _product = MongodbCollectionService.GetCollection<Product?>(configuration);
+      // this.context = context;
     }
     public bool Create(string message)
     {
@@ -22,23 +29,16 @@ namespace product_sv.Services
 
       try
       {
-        Product? product = context.Products
-            .FirstOrDefault(p => p.ProductId == model!.ProductId);
+        Product query = new Product{
+          ProductId=model!.ProductId
+        };
+        Product? product = _product.Find(p => p!.ProductId == model!.ProductId).FirstOrDefault();
         
-        if(product != null)
-        {
-            product.NComments += 1;
-            
-            int result = context.SaveChanges();
-            if(result > 0)
-            {
-                logger.LogInformation("--> Product updated");  
-                return true;      
-            }
-        }
+        product!.NComments += 1;
+        _product.ReplaceOne(p => p!.ProductId == model.ProductId, product);
+        logger.LogInformation("--> Product updated");  
+          return true;      
 
-        logger.LogWarning("--> Product not found");
-        return false;
       }
       catch (Exception e)
       {

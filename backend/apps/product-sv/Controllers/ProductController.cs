@@ -20,5 +20,11 @@ namespace product_sv.Controllers
     {
         return productService.Get();
     }
+
+    [HttpPost]
+    public async Task<ActionResult<Product>> Post([FromBody] Product product)
+    {
+        return await productService.Post(product);
+    }
   }
 }

@@ -17,6 +17,10 @@ services:
       - "ServiceConfig__ServiceAddress=http://se-backend-comment-sv:5000"
       - "ServiceConfig__ServiceName=se-backend-comment-sv"
       - "ServiceConfig__ServiceId=v1"
+      # mongodb config
+      - "MongodbConfig__ConnectionString=mongodb://root:P4ssw0rd@se-mongo-db:27017/"
+      - "MongodbConfig__DatabaseName=comment_db"
+      - "MongodbConfig__CollectionName=comments"
 
 networks:
   se-network:

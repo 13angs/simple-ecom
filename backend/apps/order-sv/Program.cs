@@ -4,6 +4,7 @@ using Newtonsoft.Json.Serialization;
 using order_sv.Interfaces;
 using order_sv.Models;
 using order_sv.Services;
+using SeBackend.Common.Configurations;
 using SeBackend.Common.Models;
 using SeBackend.Common.Services;
 
@@ -16,9 +17,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContextPool<OrderContext>(options => {
-    options.UseInMemoryDatabase(Configuration["ConnectionStrings:InMemoryDb"]);
-});
+
 
 builder.Services.AddScoped<IOrderService, OrderService>();
 // var consulHost = "http://localhost:8500";
@@ -35,6 +34,9 @@ builder.Services.AddControllers()
                     = new DefaultContractResolver()
 );
 
+MongodbConfig mongodbConfig = Configuration.GetMongodbConfig();
+builder.Services.AddSingleton(mongodbConfig);
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -50,6 +52,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-SeedData.Seed(app);
+// SeedData.Seed(app);
 
 app.Run();

@@ -3,7 +3,9 @@ using comment_sv.Models;
 using comment_sv.Services;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json.Serialization;
+using SeBackend.Common.Configurations;
 using SeBackend.Common.Interfaces;
+using SeBackend.Common.Models;
 using SeBackend.Common.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,7 +35,8 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 var serviceConfig = Configuration.GetServiceConfig();
 builder.Services.RegisterConsulServices(serviceConfig);
-
+MongodbConfig mongodbConfig = Configuration.GetMongodbConfig();
+builder.Services.AddSingleton(mongodbConfig);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
