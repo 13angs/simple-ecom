@@ -8,6 +8,9 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=5af42315e38d
       - RABBITMQ_ERLANG_COOKIE="ee62afc5-257f-4563-83da-5af42315e38d"
+      - LETSENCRYPT_HOST=rabbit.se.winonafeminine.co
+      - VIRTUAL_HOST=rabbit.se.winonafeminine.co
+      - VIRTUAL_PORT=15672
     deploy:
       restart_policy:
         condition: on-failure
@@ -27,6 +30,11 @@ services:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=5af42315e38d
       - RABBITMQ_ERLANG_COOKIE="ee62afc5-257f-4563-83da-5af42315e38d"
+      - LETSENCRYPT_HOST=rabbit.se.winonafeminine.co
+      - VIRTUAL_HOST=rabbit.se.winonafeminine.co
+      - VIRTUAL_PORT=15672
+
+
     deploy:
       restart_policy:
         condition: on-failure

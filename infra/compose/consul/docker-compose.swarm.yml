@@ -10,6 +10,11 @@ services:
     #   - 8400:8400
     #   - 8500:8500
     #   - 8600:53
+    environment:
+      - LETSENCRYPT_HOST=consul.se.winonafeminine.co
+      - VIRTUAL_HOST=consul.se.winonafeminine.co
+      - VIRTUAL_PORT=8500
+
     volumes:
       - consul-data:/consul/data
     deploy:
