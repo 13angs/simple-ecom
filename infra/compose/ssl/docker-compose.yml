@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  # this our service name make not to confuse with the container name
+  nginx-proxy:
+    # you can replace the image with default jwilder/nginx-proxy:alpine
+    # or continue using as it is as it's not a big difference 
+    # the only difference is the increasing of client_max_body_size to 256m
+    image: 13angs/nginx-proxy:alpine
+    container_name: nginx-proxy
+    restart: always
+
+    # expose the 80 and 443 to be publicly reachable to the outside world
+    # and these two will be our only ports that need to be exposed
+    ports:
+      - "80:80"
+      - "443:443"
+
+    # save our files in volumes so that the letsencrypt can access via volumes_from
+    # /etc/nginx/certs to store certificates and private keys (readonly for the nginx-proxy container)
+    # /etc/nginx/vhost.d to change the configuration of vhosts (required so the CA may access http-01 challenge files).
+    # /usr/share/nginx/html to write http-01 challenge files.
+    # Binding the host docker socket (/var/run/docker.sock) inside the container to /tmp/docker.sock is a requirement of nginx-proxy
+    volumes:
+      - vhost:/etc/nginx/vhost.d
+      - certs:/etc/nginx/certs:ro
+      - dhparam:/etc/nginx/dhparam
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+
+    # declare a network to connect to the letsencrypt service
+    networks:
+      - prod
+
+
+  letsencrypt:
+    image: nginxproxy/acme-companion:latest
+    container_name: letsencrypt
+    volumes_from:
+      # nginx-proxy service name
+      # make sure to use the service name not the container name
+      - nginx-proxy 
+    
+    # /etc/acme.sh to store acme.sh configuration and state
+    # bind to the host docker socket /var/run/docker.sock 
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - acme:/etc/acme.sh
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+    depends_on:
+      - nginx-proxy
+
+    # provide a valid default email address
+    # so that Let's Encrypt can warn you about expiring certificates 
+    # and allow you to recover your account.
+    environment:
+      - DEFAULT_EMAIL=${EMAIL}
+
+    # make to use the same network as nginx-proxy
+    networks:
+      - prod
+
+
+volumes:
+  vhost:
+    name: vhost
+  certs:
+    name: certs
+  dhparam:
+    name: dhparam
+  html:
+    name: html
+  acme:
+    name: acme
+
+networks:
+  prod:
+    external: true
+    name: prod
